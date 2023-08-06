@@ -62,7 +62,10 @@ public final class BungeeExpansion extends PlaceholderExpansion implements Plugi
         switch (identifier.toLowerCase()) {
             case "all":
             case "total":
-                value = counts.getOrDefault("all", 0);
+                value = counts.keySet().stream()
+                  .filter(key -> !key.equals("all"))
+                  .map(counts::get)
+                  .mapToInt(Integer::intValue).sum();
                 break;
             default:
                 value = counts.getOrDefault(identifier.toLowerCase(), 0);
