@@ -46,7 +46,7 @@ public final class BungeeExpansion extends PlaceholderExpansion implements Plugi
 
     @Override
     public String getVersion() {
-        return "2.2";
+        return "2.3";
     }
 
     @Override
@@ -62,7 +62,10 @@ public final class BungeeExpansion extends PlaceholderExpansion implements Plugi
         switch (identifier.toLowerCase()) {
             case "all":
             case "total":
-                value = counts.values().stream().mapToInt(Integer::intValue).sum();
+                value = counts.keySet().stream()
+                  .filter(key -> !key.equals("all"))
+                  .map(counts::get)
+                  .mapToInt(Integer::intValue).sum();
                 break;
             default:
                 value = counts.getOrDefault(identifier.toLowerCase(), 0);
